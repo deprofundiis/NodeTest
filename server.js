@@ -1,5 +1,5 @@
 var http = require('http');
-var port = process.env.PORT || 1337;
+var port = 1337//process.env.PORT || 1337;
 var position = "0";
 
 http.createServer(function(req, res) {
