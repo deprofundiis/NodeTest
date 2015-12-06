@@ -1,15 +1,22 @@
 var http = require('http');
 var port = process.env.PORT || 1337;
-http.createServer(function(req, res) {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello World\nARJD I 4TW!!!');
-}).listen(port)
+var position = "0";
 
-// var fs = require("fs");
-//
-// fs.readFile('input.txt', function (err, data) {
-//     if (err) return console.error(err);
-//     console.log(data.toString());
-// });
-//
-// console.log("Program Ended");
+http.createServer(function(req, res) {
+  if(req.method == 'POST') {
+    console.log("[200] " + req.method + " to " + req.url);
+    req.on('data', function(chunk) {
+      console.log("Received body data:");
+      console.log(chunk.toString());
+      var postValue = chunk.toString().split('=');
+      position = postValue[1];
+      console.log(postValue[1] + " " + position);
+    });
+    res.writeHead(200, "OK", {'Content-Type': 'text/plain'});
+    res.end();
+  } else {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end(position);
+  }
+
+}).listen(port)
